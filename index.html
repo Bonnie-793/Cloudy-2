@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        background-color: #f9f7fe;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        padding-bottom: 30px;
+      }
+
+      main {
+        padding: 30px;
+      }
+
+      h1 {
+        font-size: 38px;
+        font-weight: 900;
+        margin: 0;
+      }
+
+      strong {
+        color: crimson;
+      }
+
+      footer {
+        text-align: center;
+        padding-top: 16px;
+        color: rgba(128, 128, 128, 0.5);
+      }
+
+      .placeholder {
+        display: inline-block;
+        background-color: #f9f7fe;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        width: calc(100% - 120px); /* Adjust width to fit the button */
+        padding: 20px;
+      }
+
+      .submitButton {
+        display: inline-block;
+        color: white;
+        font-size: 16px;
+        background-color: blueviolet;
+        border-radius: 4px;
+        padding: 18px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .submitButton:hover {
+        background-color: darkviolet;
+      }
+
+      .container {
+        background-color: #ffff;
+        padding: 40px;
+        border-radius: 20px;
+        max-width: 600px;
+        margin: 60px auto;
+      }
+
+      .current-weather {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .current-weather .city-and-details {
+        flex: 1;
+      }
+
+      .current-weather .temperature {
+        display: flex;
+        justify-content:flex-end;
+        align-items: center;
+      }
+
+      .temperature {
+        font-size: 48px;
+        display:flex;
+        align-items:center;
+      }
+
+      .temperature-icon {
+        font-size: 40px;
+        margin-bottom: 10px;
+        margin-right:10px;
+      }
+
+      .temperature-value {
+        font-size: 80px;
+        font-weight: bold;
+        margin-right:5px;
+      }
+
+      .temperature-unit {
+        font-size: 28px;
+        position:relative;
+        top:-10px;
+      }
+
+      .current-weather-details {
+        color: rgba(128, 128, 128, 0.5);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        margin-top: 10px;
+      }
+
+      .weather-forecast {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+      }
+
+      .weather-forecast-day {
+        text-align: center;
+        color: rgba(39, 33, 66, 0.4);
+        font-size: 16px;
+        line-height: 20px;
+      }
+
+      .weather-forecast-icon {
+        font-size: 38px;
+        text-align: center;
+      }
+
+      .weather-forecast-temperatures {
+        text-align: center;
+        color: crimson;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .weather-forecast-temperature {
+        padding: 0 10px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <form id="search-form">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Enter a city.."
+            class="placeholder"
+            required
+          />
+          <button
+            type="submit"
+            value="Search"
+            class="submitButton"
+            id="search-button"
+          >
+            Search
+          </button>
+        </form>
+      </header>
+      <main>
+        <div class="current-weather">
+          <div class="city-and-details">
+            <h1><div id="city-name">Pretoria</div></h1>
+            <p class="current-weather-details">
+              <span class="current-date"></span><br />
+              <span id="weather-description">moderate rain</span>
+            </p>
+            <div class="current-weather-details">
+              Humidity: <strong id="humidity">87%</strong>, Wind: <strong id="wind-speed">7.2km/h</strong>
+            </div>
+          </div>
+          <div class="temperature">
+            <span class="temperature-icon" id="temperature-icon">☀️</span>
+            <span class="temperature-value" id="temperature-value">14</span>
+            <span class="temperature-unit" id="temperature-unit">°C</span>
+          </div>
+        </div>
+        <div id="forecast" class="weather-forecast">
+          <div class="weather-forecast-day">
+            <div class="weather-forecast-date">Tue</div>
+            <div class="weather-forecast-icon">🌤️</div>
+            <div class="weather-forecast-temperatures">
+              <div class="weather-forecast-temperature">
+                <strong>15º</strong>
+              </div>
+              <div class="weather-forecast-temperature">9º</div>
+            </div>
+          </div>
+          <div class="weather-forecast-day">
+            <div class="weather-forecast-date">Wed</div>
+            <div class="weather-forecast-icon">🌤️</div>
+            <div class="weather-forecast-temperatures">
+              <div class="weather-forecast-temperature">
+                <strong>15º</strong>
+              </div>
+              <div class="weather-forecast-temperature">9º</div>
+            </div>
+          </div>
+          <div class="weather-forecast-day">
+            <div class="weather-forecast-date">Wed</div>
+            <div class="weather-forecast-icon">🌤️</div>
+            <div class="weather-forecast-temperatures">
+              <div class="weather-forecast-temperature">
+                <strong>15º</strong>
+              </div>
+              <div class="weather-forecast-temperature">9º</div>
+            </div>
+          </div>
+          <div class="weather-forecast-day">
+            <div class="weather-forecast-date">Wed</div>
+            <div class="weather-forecast-icon">🌤️</div>
+            <div class="weather-forecast-temperatures">
+              <div class="weather-forecast-temperature">
+                <strong>15º</strong>
+              </div>
+              <div class="weather-forecast-temperature">9º</div>
+            </div>
+          </div>
+          <div class="weather-forecast-day">
+            <div class="weather-forecast-date">Wed</div>
+            <div class="weather-forecast-icon">🌤️</div>
+            <div class="weather-forecast-temperatures">
+              <div class="weather-forecast-temperature">
+                <strong>15º</strong>
+              </div>
+              <div class="weather-forecast-temperature">9º</div>
+            </div>
+          
+        </div>
+        </div>
+      </main>
+      <footer>
+        <p>
+          This project was coded by <a href="https://github.com/Bonnie-793" target="_blank">Bonolo Masilela</a>
+          and is <a href="https://github.com/Bonnie-793/Cloudy" target="_blank">on GitHub</a> and
+          <a href="https://cloudy-check.netlify.app/" target="_blank">hosted on Netlify</a>
+        </p>
+      </footer>
+    </div>
+    <script>
+      function search(event) {
+        event.preventDefault();
+        let searchInputElement = document.querySelector("#search-input");
+        let cityElement = document.querySelector("#city-name");
+        cityElement.innerHTML = searchInputElement.value;
+        let city = searchInputElement.value;
+        let apiKey = "6d7d9oa0da68bbebtf8a4d33aeb9696e";
+        let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
+
+        axios
+          .get(apiUrl)
+          .then(displayWeatherInfo)
+          .catch((error) => {
+            console.error("Error fetching weather data:", error);
+            alert("Sorry, we couldn't fetch the weather data.");
+          });
+      }
+
+      function displayWeatherInfo(response) {
+        let cityElement = document.querySelector("#city-name");
+        let weatherDescriptionElement = document.querySelector("#weather-description");
+        let humidityElement = document.querySelector("#humidity");
+        let windSpeedElement = document.querySelector("#wind-speed");
+        let temperatureValueElement = document.querySelector("#temperature-value");
+        let iconElement = document.querySelector("#temperature-icon");
+        let timeElement = document.querySelector(".current-date");
+        let date = new Date(response.data.time * 1000);
+
+        let city = response.data.city;
+        let weatherDescription = response.data.condition.description;
+        let humidity = response.data.temperature.humidity;
+        let windSpeed = response.data.wind.speed;
+        let temperature = Math.round(response.data.temperature.current);
+
+        cityElement.innerHTML = `${city}`;
+        timeElement.innerHTML = formatDate(date);
+        weatherDescriptionElement.innerHTML = `${weatherDescription}`;
+        humidityElement.innerHTML = `${humidity}%`;
+        windSpeedElement.innerHTML = `${windSpeed}km/h`;
+        temperatureValueElement.innerHTML = `${temperature}`;
+        iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
+
+        getForecast(response.data.city);
+      }
+
+      function formatDate(date) {
+        let minutes = date.getMinutes();
+        let hours = date.getHours();
+        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let day = days[date.getDay()];
+        if (minutes < 10) {
+          minutes = `0${minutes}`;
+        }
+        return `${day}, ${hours}:${minutes}`;
+      }
+
+      function formatDay(timestamp) {
+        let date = new Date(timestamp * 1000);
+        let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        return days[date.getDay()];
+      }
+
+      function getForecast(city) {
+        let apiKey = "6d7d9oa0da68bbebtf8a4d33aeb9696e";
+        let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+        axios.get(apiUrl).then(displayForecast);
+      }
+
+      function displayForecast(response) {
+        let forecastHtml = "";
+
+        response.data.daily.forEach(function (day, index) {
+          if (index < 5) {
+            forecastHtml += `
+              <div class="weather-forecast-day">
+                <div class="weather-forecast-date">${formatDay(day.time)}</div>
+                <img src="${day.condition.icon_url}" class="weather-forecast-icon" />
+                <div class="weather-forecast-temperatures">
+                  <div class="weather-forecast-temperature">
+                    <strong>${Math.round(day.temperature.maximum)}º</strong>
+                  </div>
+                  <div class="weather-forecast-temperature">${Math.round(day.temperature.minimum)}º</div>
+                </div>
+              </div>
+            `;
+          }
+        });
+
+        let forecastElement = document.querySelector("#forecast");
+        forecastElement.innerHTML = forecastHtml;
+      }
+
+      let searchForm = document.querySelector("#search-form");
+      searchForm.addEventListener("submit", search);
+    </script>
+  </body>
+</html>
